@@ -13,6 +13,7 @@ Usage:
 import sys
 import json
 import urllib.request
+import urllib.parse
 
 # Default city if the user doesn't type one
 DEFAULT_CITY = "Istanbul"
@@ -20,7 +21,8 @@ DEFAULT_CITY = "Istanbul"
 
 def geocode_city(city_name):
     """Convert a city name into latitude and longitude using Open-Meteo's geocoding API."""
-    url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_name}&count=1&language=en&format=json"
+    encoded_city = urllib.parse.quote(city_name)
+    url = f"https://geocoding-api.open-meteo.com/v1/search?name={encoded_city}&count=1&language=en&format=json"
     try:
         with urllib.request.urlopen(url, timeout=10) as response:
             data = json.loads(response.read().decode("utf-8"))
